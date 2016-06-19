@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Avira TestCases" verbose="1" >
+  <test name="TestSuite" >
+    <classes>
+      <class name="com.avira.malwaresites.test.MalwareSitesPageStatusTestcases"/>
+      <class name="com.avira.nonmalwaresites.test.NonMalwareSitesPageStatusTestcases"/>
+	 </classes>
+ </test>
+</suite>
