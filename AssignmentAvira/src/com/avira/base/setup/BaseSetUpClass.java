@@ -3,6 +3,7 @@ package com.avira.base.setup;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -14,6 +15,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Listeners;
 
@@ -34,11 +36,14 @@ public class BaseSetUpClass {
 	// Property reader file location
 	public static PropertyReader properties = new PropertyReader(System.getProperty("user.dir")
 			+ "\\Resources\\testdata.properties");
+
 	// Logs
 	public static Logger log = Logger.getLogger(BaseSetUpClass.class.getName());
+
 	// Fetching chrome driver.exe
-	private static String pathChromeDriver = properties.get("driverPath") + "chromedriver.exe";
-	static File Avira_Browser_Safety = new File(System.getProperty("user.dir")
+	private static String PATH_CHROME_DRIVER = properties.get("DRIVER_PATH") + "chromedriver.exe";
+
+	static File AVIRA_BROWSER_SAFETY = new File(System.getProperty("user.dir")
 			+ "\\Resources\\Avira-Browser-Safety_v1.9.2.crx");
 
 	/**
@@ -51,9 +56,9 @@ public class BaseSetUpClass {
 	public static void instantiateDriverObject() throws FileNotFoundException, IOException {
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-		System.setProperty("webdriver.chrome.driver", pathChromeDriver);
+		System.setProperty("webdriver.chrome.driver", PATH_CHROME_DRIVER);
 		ChromeOptions options = new ChromeOptions();
-		options.addExtensions(Avira_Browser_Safety);
+		options.addExtensions(AVIRA_BROWSER_SAFETY);
 		options.addArguments("--test-type");
 		driver = new ChromeDriver(options);
 	}
@@ -64,6 +69,17 @@ public class BaseSetUpClass {
 	 */
 	public static WebDriver getDriver() throws Exception {
 		return driver;
+	}
+
+	/**
+	 * Maximize the browser
+	 * 
+	 * @throws Exception
+	 */
+	@BeforeMethod(alwaysRun = true)
+	public static void MaximizeBrowser() throws Exception {
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
 
 	/**
