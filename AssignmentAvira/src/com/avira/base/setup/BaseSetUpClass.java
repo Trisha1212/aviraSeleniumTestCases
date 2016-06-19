@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
+import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -103,7 +104,7 @@ public class BaseSetUpClass {
 				driver.quit();
 
 				return;
-			} catch (Exception e) {
+			} catch (NoSuchWindowException e) {
 				log.error("Not able to close the browser: ", e);
 			}
 		}
